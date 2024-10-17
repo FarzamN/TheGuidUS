@@ -15,7 +15,6 @@ export default StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    color: colors.black,
     textTransform: 'capitalize',
     fontFamily: fonts.font600,
   },

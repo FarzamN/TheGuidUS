@@ -59,7 +59,14 @@ const Button: FC<CustomButtonProps> = props => {
             style={{marginRight: 10}}
           />
         )}
-        <Text style={[styles.title, textRestyle]}>
+        <Text
+          style={[
+            styles.title,
+            {
+              color: white ? colors.black : colors.white,
+            },
+            textRestyle,
+          ]}>
           {loader ? 'Loading...' : title}
         </Text>
       </View>

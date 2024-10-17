@@ -3,7 +3,16 @@ import {style} from './style';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {ILogin, ILoginInput} from '../../util/interface';
 import {GlobalStyle} from '../../util/GlobalStyle';
-import {Body, Button, FullImage, MainInput, Validation} from '../../component';
+import {
+  Body,
+  Button,
+  Error,
+  FullImage,
+  Loader,
+  MainInput,
+  Sub,
+  Validation,
+} from '../../component';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
 import Animated, {
   useSharedValue,
@@ -24,33 +33,17 @@ import {AppDispatch} from '../../redux/store';
 
 const Login = ({navigation}: ILogin) => {
   const {navigate} = navigation;
-  const offset = useSharedValue(0);
   const dispatch: AppDispatch = useDispatch();
 
   const [load, setLoad] = useState<boolean>(false);
-  const [error, setError] = useState<{visible: boolean; msg: string}>({
+  const [err, setErr] = useState<{visible: boolean; msg: string}>({
     visible: false,
     msg: '',
   });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{translateX: offset.value}],
-  }));
-
-  const OFFSET = 40;
-  const TIME = 250;
-
-  const shake = () => {
-    offset.value = withSequence(
-      withTiming(-OFFSET, {duration: TIME / 2}),
-      withRepeat(withTiming(OFFSET, {duration: TIME}), 3, true),
-      withTiming(0, {duration: TIME / 2}),
-    );
-  };
-
-  const onSubmit: SubmitHandler<ILoginInput> = async inputs => {
-    setError({visible: false, msg: ''});
-    // dispatch(loginApi(inputs, setLoad, setError, shake));
+  const onSubmit = async (inputs: any) => {
+    setErr({visible: false, msg: ''});
+    // dispatch(loginApi(inputs, setLoad, setErr, shake));
     // dispatch(setUser(inputs));
   };
 
@@ -79,47 +72,46 @@ const Login = ({navigation}: ILogin) => {
                 required: required('Password'),
               }
             : {
-                required: required('Email'),
                 pattern: emailPattern,
+                required: required('Email'),
               };
           return (
-            <Animated.View key={name} style={[animatedStyle]}>
-              <MainInput
-                isIcon
-                icon={icon}
-                name={name}
-                rules={rules}
-                placeholder={p}
-                control={control}
-                isError={!!isError}
-                password={isPassword}
-                defaultValue={`${def}`}
-                message={isError?.message}
-                keyboardType={isPassword ? 'default' : 'email-address'}
-              />
-            </Animated.View>
+            <MainInput
+              isIcon
+              icon={icon}
+              name={name}
+              rules={rules}
+              placeholder={p}
+              control={control}
+              isError={!!isError}
+              password={isPassword}
+              defaultValue={`${def}`}
+              message={isError?.message}
+              keyboardType={isPassword ? 'default' : 'email-address'}
+            />
           );
         })}
         <Validation
-          isError={error.visible}
+          isError={err.visible}
           message="Email or password is invalid"
         />
         <TouchableOpacity>
-          {/* <Text style={style.forget}>Forget password</Text> */}
+          <Sub style={style.forget} text="Forget Password?" />
         </TouchableOpacity>
         <Button
           title="Submit"
           onPress={handleSubmit(onSubmit)}
-          style={{marginTop: 20}}
+          loader
+          marginTop={20}
         />
         <View style={GlobalStyle.height} />
         <Button
+          white
           title="Create a new account"
           onPress={() => navigate('register')}
         />
       </ScrollView>
-      {/* <Loader visible={load} /> */}
-      {/* <Error visible={error} message={msg} /> */}
+      <Error visible={err.visible} message={err.msg} />
     </Body>
   );
 };

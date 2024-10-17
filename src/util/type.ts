@@ -102,19 +102,8 @@ export type FullImageType = {
   radius?: number;
   resizeMode?: ImageResizeMode;
 };
-
-export type AuthBodyType = {
-  heading: string;
-  sub: string;
-  title?: string | object;
-  children: ReactNode;
-  onPress?: () => void;
-  noButton?: boolean;
-};
-
 export type loaderType = {
   visible: boolean;
-  isError?: boolean;
   message?: string;
 };
 

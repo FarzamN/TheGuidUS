@@ -46,7 +46,7 @@ const MainInput: FC<MainInputType> = forwardRef(
       defaultValue: defaultValue || '',
     });
 
-    const color = colors.black;
+    const color = colors.white;
     const themeErrorColor = colors.Red;
     const errorColor = isError ? themeErrorColor : color;
 

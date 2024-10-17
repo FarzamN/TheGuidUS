@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {colors} from '../../util/colors';
+import {fonts} from '../../util/fonts';
 
 export const style = StyleSheet.create({
   Overboard_Box: {
@@ -30,6 +31,12 @@ export const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   resendText: {fontWeight: '600'},
+  forget: {
+    fontSize: 16,
+    marginTop: 10,
+    marginHorizontal: 5,
+    color: colors.white,
+    fontFamily: fonts.font400,
+  },
 });
